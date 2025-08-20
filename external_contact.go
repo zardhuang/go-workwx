@@ -39,6 +39,68 @@ func (c *WorkwxApp) BatchListExternalContact(userID string, cursor string, limit
 	return &BatchListExternalContactsResp{Result: resp.ExternalContactList, NextCursor: resp.NextCursor}, nil
 }
 
+// ListExternalContactCustomerAcquisitionLink 获取获客链接列表
+func (c *WorkwxApp) ListExternalContactCustomerAcquisitionLink(cursor string, limit int) (*ExternalContactCustomerAcquisitionLinkListResp, error) {
+	resp, err := c.execExternalContactCustomerAcquisitionLinkList(reqExternalContactCustomerAcquisitionLinkList{
+		Cursor: cursor,
+		Limit:  limit,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &ExternalContactCustomerAcquisitionLinkListResp{Result: resp.LinkIDList, NextCursor: resp.NextCursor}, nil
+}
+
+// GetExternalContactCustomerAcquisitionLink 获取获客链接详情
+func (c *WorkwxApp) GetExternalContactCustomerAcquisitionLink(linkID string) (*ExternalContactCustomerAcquisitionInfo, error) {
+	resp, err := c.execExternalContactCustomerAcquisitionInfo(reqExternalContactCustomerAcquisitionInfo{
+		LinkID: linkID,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &ExternalContactCustomerAcquisitionInfo{
+		LinkName:       resp.Link.LinkName,
+		URL:            resp.Link.URL,
+		CreateTime:     time.Unix(int64(resp.Link.CreateTime), 0),
+		SkipVerify:     resp.Link.SkipVerify,
+		Range:          resp.Link.Range,
+		PriorityOption: resp.Link.PriorityOption,
+	}, nil
+}
+
+// CreateExternalContactCustomerAcquisitionLink 创建获客链接
+func (c *WorkwxApp) CreateExternalContactCustomerAcquisitionLink(linkName string, customerAcquisitionRange ExternalContactCustomerAcquisitionRange, priorityOption ExternalContactCustomerAcquisitionPriorityOption, skipVerify bool) (*ExternalContactCustomerAcquisitionCreateResp, error) {
+	resp, err := c.execExternalContactCustomerAcquisitionCreate(reqExternalContactCustomerAcquisitionCreate{
+		LinkName:       linkName,
+		Range:          customerAcquisitionRange,
+		PriorityOption: priorityOption,
+		SkipVerify:     skipVerify,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &ExternalContactCustomerAcquisitionCreateResp{
+		LinkID:     resp.Link.LinkID,
+		LinkName:   resp.Link.LinkName,
+		URL:        resp.Link.URL,
+		CreateTime: time.Unix(int64(resp.Link.CreateTime), 0),
+	}, nil
+}
+
+// ExternalContactCustomerAcquisitionCustomer 获取获客客户列表
+func (c *WorkwxApp) ExternalContactCustomerAcquisitionCustomer(linkID string, cursor string, limit int) (*ExternalContactCustomerAcquisitionCustomerResp, error) {
+	resp, err := c.execExternalContactCustomerAcquisitionCustomer(reqExternalContactCustomerAcquisitionCustomer{
+		LinkID: linkID,
+		Cursor: cursor,
+		Limit:  limit,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &ExternalContactCustomerAcquisitionCustomerResp{Result: resp.CustomerList, NextCursor: resp.NextCursor}, nil
+}
+
 // RemarkExternalContact 修改客户备注信息
 func (c *WorkwxApp) RemarkExternalContact(req *ExternalContactRemark) error {
 	_, err := c.execExternalContactRemark(reqExternalContactRemark{

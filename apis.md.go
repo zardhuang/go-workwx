@@ -233,6 +233,50 @@ func (c *WorkwxApp) execExternalContactRemark(req reqExternalContactRemark) (res
 	return resp, nil
 }
 
+// execExternalContactCustomerAcquisitionLinkList 获取获客链接列表
+func (c *WorkwxApp) execExternalContactCustomerAcquisitionLinkList(req reqExternalContactCustomerAcquisitionLinkList) (respExternalContactCustomerAcquisitionLinkList, error) {
+	var resp respExternalContactCustomerAcquisitionLinkList
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/customer_acquisition/list_link", req, &resp, true)
+	if err != nil {
+		return respExternalContactCustomerAcquisitionLinkList{}, err
+	}
+
+	return resp, nil
+}
+
+// execExternalContactCustomerAcquisitionInfo 获取获客链接详情
+func (c *WorkwxApp) execExternalContactCustomerAcquisitionInfo(req reqExternalContactCustomerAcquisitionInfo) (respExternalContactCustomerAcquisitionInfo, error) {
+	var resp respExternalContactCustomerAcquisitionInfo
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/customer_acquisition/get", req, &resp, true)
+	if err != nil {
+		return respExternalContactCustomerAcquisitionInfo{}, err
+	}
+
+	return resp, nil
+}
+
+// execExternalContactCustomerAcquisitionCreate 创建获客链接
+func (c *WorkwxApp) execExternalContactCustomerAcquisitionCreate(req reqExternalContactCustomerAcquisitionCreate) (respExternalContactCustomerAcquisitionCreate, error) {
+	var resp respExternalContactCustomerAcquisitionCreate
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/customer_acquisition/create_link", req, &resp, true)
+	if err != nil {
+		return respExternalContactCustomerAcquisitionCreate{}, err
+	}
+
+	return resp, nil
+}
+
+// execExternalContactCustomerAcquisitionCustomer 获取获客客户列表
+func (c *WorkwxApp) execExternalContactCustomerAcquisitionCustomer(req reqExternalContactCustomerAcquisitionCustomer) (respExternalContactCustomerAcquisitionCustomer, error) {
+	var resp respExternalContactCustomerAcquisitionCustomer
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/customer_acquisition/customer", req, &resp, true)
+	if err != nil {
+		return respExternalContactCustomerAcquisitionCustomer{}, err
+	}
+
+	return resp, nil
+}
+
 // execExternalContactListCorpTags 获取企业标签库
 func (c *WorkwxApp) execExternalContactListCorpTags(req reqExternalContactListCorpTags) (respExternalContactListCorpTags, error) {
 	var resp respExternalContactListCorpTags

@@ -593,6 +593,186 @@ type respExternalContactBatchList struct {
 	ExternalContactList []ExternalContactBatchInfo `json:"external_contact_list"`
 }
 
+// ExternalContactCustomerAcquisitionLinkListResp 获取获客链接列表
+type ExternalContactCustomerAcquisitionLinkListResp struct {
+	Result     []string
+	NextCursor string
+}
+
+// reqExternalContactCustomerAcquisitionLinkList 获取获客链接列表
+type reqExternalContactCustomerAcquisitionLinkList struct {
+	Cursor string `json:"cursor"`
+	Limit  int    `json:"limit"`
+}
+
+var _ bodyer = reqExternalContactCustomerAcquisitionLinkList{}
+
+func (x reqExternalContactCustomerAcquisitionLinkList) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respExternalContactBatchList 获取获客链接列表
+type respExternalContactCustomerAcquisitionLinkList struct {
+	respCommon
+	NextCursor string   `json:"next_cursor"`
+	LinkIDList []string `json:"link_id_list"`
+}
+
+// ExternalContactCustomerAcquisitionInfo 获客链接信息
+type ExternalContactCustomerAcquisitionInfo struct {
+	//获客链接的名称
+	LinkName string `json:"link_name"`
+	//获客链接实际的url
+	URL string `json:"url"`
+	//创建时间
+	CreateTime time.Time `json:"create_time"`
+	//是否无需验证，默认为true
+	SkipVerify bool `json:"skip_verify"`
+	//该获客链接使用范围
+	Range ExternalContactCustomerAcquisitionRange `json:"range"`
+	//优先级选项
+	PriorityOption ExternalContactCustomerAcquisitionPriorityOption `json:"priority_option"`
+}
+
+// ExternalContactCustomerAcquisitionRange 该获客链接使用范围
+type ExternalContactCustomerAcquisitionRange struct {
+	//该获客链接使用范围成员列表
+	UserList []string `json:"user_list"`
+	//该获客链接使用范围的部门列表
+	DepartmentList []int `json:"department_list"`
+}
+
+// ExternalContactCustomerAcquisitionPriorityOption 优先级选项
+type ExternalContactCustomerAcquisitionPriorityOption struct {
+	//优先分配类型，1-全企业范围内优先分配给有好友关系的；2-指定范围内优先分配有好友关系的
+	PriorityType int `json:"priority_type"`
+	//priority_type为2时的指定成员列表
+	PriorityUseridList []string `json:"priority_userid_list"`
+}
+
+// reqExternalContactCustomerAcquisitionCreate 创建获客链接
+type reqExternalContactCustomerAcquisitionCreate struct {
+	//获客链接的名称
+	LinkName string `json:"link_name"`
+	//该获客链接使用范围
+	Range ExternalContactCustomerAcquisitionRange `json:"range"`
+	//优先级选项
+	PriorityOption ExternalContactCustomerAcquisitionPriorityOption `json:"priority_option"`
+	//是否无需验证，默认为true
+	SkipVerify bool `json:"skip_verify"`
+}
+
+var _ bodyer = reqExternalContactCustomerAcquisitionCreate{}
+
+func (x reqExternalContactCustomerAcquisitionCreate) intoBody() ([]byte, error) {
+
+	obj := map[string]any{
+		"link_name":   x.LinkName,
+		"skip_verify": x.SkipVerify,
+	}
+
+	if len(x.Range.UserList) > 0 || len(x.Range.DepartmentList) > 0 {
+		obj["range"] = x.Range
+	}
+	if len(x.PriorityOption.PriorityUseridList) > 0 || x.PriorityOption.PriorityType != 0 {
+		obj["priority_option"] = x.PriorityOption
+	}
+	return marshalIntoJSONBody(obj)
+}
+
+// respExternalContactCustomerAcquisitionCreate 创建获客链接
+type respExternalContactCustomerAcquisitionCreate struct {
+	respCommon
+	Link struct {
+		//获客链接的id
+		LinkID string `json:"link_id"`
+		//获客链接的名称
+		LinkName string `json:"link_name"`
+		//获客链接实际的url
+		URL string `json:"url"`
+		//创建时间
+		CreateTime int `json:"create_time"`
+	} `json:"link"`
+}
+
+type ExternalContactCustomerAcquisitionCreateResp struct {
+	LinkID string `json:"link_id"`
+	//获客链接的名称
+	LinkName string `json:"link_name"`
+	//获客链接实际的url
+	URL string `json:"url"`
+	//创建时间
+	CreateTime time.Time `json:"create_time"`
+}
+
+// reqExternalContactCustomerAcquisitionInfo 获客链接信息
+type reqExternalContactCustomerAcquisitionInfo struct {
+	LinkID string `json:"link_id"`
+}
+
+var _ bodyer = reqExternalContactCustomerAcquisitionInfo{}
+
+func (x reqExternalContactCustomerAcquisitionInfo) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respExternalContactCustomerAcquisitionInfo 获客链接信息
+type respExternalContactCustomerAcquisitionInfo struct {
+	respCommon
+	Link struct {
+		//获客链接的名称
+		LinkName string `json:"link_name"`
+		//获客链接实际的url
+		URL string `json:"url"`
+		//创建时间
+		CreateTime int `json:"create_time"`
+		//是否无需验证，默认为true
+		SkipVerify bool `json:"skip_verify"`
+		//该获客链接使用范围
+		Range ExternalContactCustomerAcquisitionRange `json:"range"`
+		//优先级选项
+		PriorityOption ExternalContactCustomerAcquisitionPriorityOption `json:"priority_option"`
+	} `json:"link"`
+}
+
+// ExternalContactCustomerAcquisitionCustomerInfo 获客助手客户信息
+type ExternalContactCustomerAcquisitionCustomerInfo struct {
+	//客户external_userid
+	ExternalUserid string `json:"external_userid"`
+	//通过获客链接添加此客户的跟进人userid
+	UserID string `json:"userid"`
+	//会话状态，0-客户未发消息 1-客户已发送消息 2-客户发送消息状态未知
+	ChatStatus int `json:"chat_status"`
+	//用于区分客户具体是通过哪个获客链接进行添加，用户可在获客链接后拼接customer_channel=自定义字符串，字符串不超过64字节，超过会被截断。通过点击带有customer_channel参数的链接获取到的客户，调用获客信息接口或获取客户详情接口时，返回的state参数即为链接后拼接自定义字符串
+	State string `json:"state"`
+}
+
+// ExternalContactCustomerAcquisitionCustomerResp 获客助手客户信息
+type ExternalContactCustomerAcquisitionCustomerResp struct {
+	Result     []ExternalContactCustomerAcquisitionCustomerInfo
+	NextCursor string
+}
+
+// reqExternalContactCustomerAcquisitionCustomer 获客助手客户信息
+type reqExternalContactCustomerAcquisitionCustomer struct {
+	LinkID string `json:"link_id"`
+	Cursor string `json:"cursor"`
+	Limit  int    `json:"limit"`
+}
+
+var _ bodyer = reqExternalContactCustomerAcquisitionCustomer{}
+
+func (x reqExternalContactCustomerAcquisitionCustomer) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respExternalContactBatchList 获客助手客户信息
+type respExternalContactCustomerAcquisitionCustomer struct {
+	respCommon
+	NextCursor   string                                           `json:"next_cursor"`
+	CustomerList []ExternalContactCustomerAcquisitionCustomerInfo `json:"customer_list"`
+}
+
 // reqExternalContactRemark 获取客户详情
 type reqExternalContactRemark struct {
 	Remark *ExternalContactRemark
