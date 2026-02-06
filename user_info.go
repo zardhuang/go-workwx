@@ -17,6 +17,8 @@ type UserDetail struct {
 	Alias          string   `json:"alias"`
 	Status         int      `json:"status"`
 	QRCodeURL      string   `json:"qr_code"`
+	BizMail        string   `json:"biz_mail"`
+	Address        string   `json:"address"`
 	// TODO: extattr external_profile external_position
 }
 
@@ -137,4 +139,15 @@ func (c *WorkwxApp) GetUserInfoByCode(code string) (*UserIdentityInfo, error) {
 		return nil, err
 	}
 	return &resp.UserIdentityInfo, nil
+}
+
+// GetUserDetail 获取用户敏感信息
+func (c *WorkwxApp) GetUserDetail(userTicket string) (*UserDetail, error) {
+	resp, err := c.execUserDetail(reqUserDetail{
+		UserTicket: userTicket,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &resp.UserDetail, nil
 }
