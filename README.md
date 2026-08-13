@@ -1,4 +1,4 @@
-# go-workwx (v2)
+# go-workwx
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/xen0n/go-workwx)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/xen0n/go-workwx)
@@ -14,7 +14,7 @@
 
 ```go
 import (
-    "github.com/xen0n/go-workwx/v2" // package workwx
+    "github.com/zardhuang/go-workwx" // package workwx
 )
 ```
 
@@ -30,11 +30,6 @@ in at least 2 of Qiniu's internal systems.
 
 > English translation TODO for now, as the service covered here is not available
 > outside of China (AFAIK).
-
-> [!WARNING]
-> 本库的 v2 版本仍可能发生不兼容的 API 变更，如字段名、方法名调整等等，请注意。在我们处理完成所有已知的边边角角之前，不会有 v2 版本的 tag。
->
-> 如果您依赖本库，请在 [v2 版本的跟踪工单](https://github.com/xen0n/go-workwx/issues/162)回复或作出表情反应，以表明态度！作者现在完全以业余时间维护本项目了，非常需要您的反馈。
 
 ## Why another wheel?
 

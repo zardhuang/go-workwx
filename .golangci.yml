@@ -38,7 +38,7 @@ formatters:
       simplify: true
     goimports:
       local-prefixes:
-        - github.com/xen0n/go-workwx
+        - github.com/zardhuang/go-workwx
   exclusions:
     generated: lax
     paths:
