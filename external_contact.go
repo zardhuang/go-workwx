@@ -88,6 +88,14 @@ func (c *WorkwxApp) CreateExternalContactCustomerAcquisitionLink(linkName string
 	}, nil
 }
 
+// DeleteExternalContactCustomerAcquisitionLink 删除获客链接
+func (c *WorkwxApp) DeleteExternalContactCustomerAcquisitionLink(linkID string) error {
+	_, err := c.execExternalContactCustomerAcquisitionDelete(reqExternalContactCustomerAcquisitionDelete{
+		LinkID: linkID,
+	})
+	return err
+}
+
 // ExternalContactCustomerAcquisitionCustomer 获取获客客户列表
 func (c *WorkwxApp) ExternalContactCustomerAcquisitionCustomer(linkID string, cursor string, limit int) (*ExternalContactCustomerAcquisitionCustomerResp, error) {
 	resp, err := c.execExternalContactCustomerAcquisitionCustomer(reqExternalContactCustomerAcquisitionCustomer{

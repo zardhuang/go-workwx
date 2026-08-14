@@ -266,6 +266,17 @@ func (c *WorkwxApp) execExternalContactCustomerAcquisitionCreate(req reqExternal
 	return resp, nil
 }
 
+// execExternalContactCustomerAcquisitionDelete 删除获客链接
+func (c *WorkwxApp) execExternalContactCustomerAcquisitionDelete(req reqExternalContactCustomerAcquisitionDelete) (respExternalContactCustomerAcquisitionDelete, error) {
+	var resp respExternalContactCustomerAcquisitionDelete
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/customer_acquisition/delete_link", req, &resp, true)
+	if err != nil {
+		return respExternalContactCustomerAcquisitionDelete{}, err
+	}
+
+	return resp, nil
+}
+
 // execExternalContactCustomerAcquisitionCustomer 获取获客客户列表
 func (c *WorkwxApp) execExternalContactCustomerAcquisitionCustomer(req reqExternalContactCustomerAcquisitionCustomer) (respExternalContactCustomerAcquisitionCustomer, error) {
 	var resp respExternalContactCustomerAcquisitionCustomer

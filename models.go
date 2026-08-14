@@ -695,6 +695,25 @@ type respExternalContactCustomerAcquisitionCreate struct {
 	} `json:"link"`
 }
 
+// reqExternalContactCustomerAcquisitionDelete 删除获客链接
+type reqExternalContactCustomerAcquisitionDelete struct {
+	//获客链接ID
+	LinkID string `json:"link_id"`
+}
+
+var _ bodyer = reqExternalContactCustomerAcquisitionDelete{}
+
+func (x reqExternalContactCustomerAcquisitionDelete) intoBody() ([]byte, error) {
+	obj := map[string]any{
+		"link_name": x.LinkID,
+	}
+	return marshalIntoJSONBody(obj)
+}
+
+type respExternalContactCustomerAcquisitionDelete struct {
+	respCommon
+}
+
 type ExternalContactCustomerAcquisitionCreateResp struct {
 	LinkID string `json:"link_id"`
 	//获客链接的名称
