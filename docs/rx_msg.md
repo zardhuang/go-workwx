@@ -46,6 +46,9 @@ type EventType string
 // EventTypeChangeExternalContact 企业客户事件
 const EventTypeChangeExternalContact EventType = "change_external_contact"
 
+// EventTypeCustomerAcquisition 获客助手事件
+const EventTypeCustomerAcquisition EventType = "customer_acquisition"
+
 // EventTypeChangeExternalChat 客户群变更事件
 const EventTypeChangeExternalChat EventType = "change_external_chat"
 

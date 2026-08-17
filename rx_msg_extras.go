@@ -70,7 +70,18 @@ func extractMessageExtras(common rxMessageCommon, body []byte) (messageKind, err
 				return nil, err
 			}
 			return &x, nil
-
+		case EventTypeCustomerAcquisition:
+			switch common.ChangeType {
+			case ChangeTypeDelFollowUser:
+				var x rxEventDelFollowUser
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+			default:
+				return nil, fmt.Errorf("unknown change type '%s'", common.ChangeType)
+			}
 		case EventTypeChangeExternalContact:
 			switch common.ChangeType {
 			case ChangeTypeAddExternalContact:
